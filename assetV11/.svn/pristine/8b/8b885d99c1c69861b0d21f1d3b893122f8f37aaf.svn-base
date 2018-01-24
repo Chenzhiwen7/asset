@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>岗亭收费管理系统-缴费管理</title>
+<link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+<link href="css/base.css" rel="stylesheet">
+<link href="css/index.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="font/font-awesome-4.7.0/css/font-awesome.css">
+
+<style>
+	.img-container{
+		margin-bottom: 10px;
+		border-radius: 10px;text-align:center;
+		border: 5px solid rgba(39,40,34,.3);
+	}
+	.img-container img{
+		width:100%;;margin: 0px auto;max-width:350px;
+	}
+	@media (min-width: 768px){
+		.mcontent{margin-left: 0;}
+		.search-container{padding-top: 20px}
+	}
+	.control-label.discount-item{text-align: left;}
+	.qrcode-area{
+		width:300px;
+		height: 250px;margin: 0px auto;border-radius: 10px;
+		border: 5px solid rgba(39,40,34,.3);
+	}
+	a.pay-disabled{
+		color: #ccc;
+	}
+	.form-control{
+		height: 32px;
+	}
+	.form-group{
+		margin-bottom: 6px;
+	}
+</style>
+<!--[if lt IE 10]>
+<script>alert("抱歉，请使用IE10+,Google Chrome,firefox等其他高级浏览器登录本系统!");</script>
+<![endif]-->
+</head>
+<body ms-controller='body'>
+<div ms-include-src="'tpl/top.html'" data-include-replace="true"></div>
+<div  id="mcontent" class="mcontent container-fluid" ms-controller='content'>
+	<h2>
+		<span class='text-primary'>{{parkingName}}</span>
+	</h2>
+	<div class='row'>
+		<div class='col-sm-6 text-center'>
+			<div class='img-container'>
+				<img onerror="Index.onImgError(this);" ms-attr-src='bigPicSrc' alt='车牌大图'>
+			</div>
+		</div>
+		<div class='col-sm-6 search-container'>
+			<form class="form-horizontal mgt10">
+				<fieldset>
+					<div class="form-group">
+						<label for='carNumber' class="col-sm-3 control-label">车牌号</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id='carNumber' ms-duplex="carnum" placeholder='请输入车牌关键字'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<div class="col-sm-9 col-sm-offset-3">
+							<button ms-click='search' type="button" class="btn btn-primary"><i class='glyphicon glyphicon-search'></i> 搜索</button>
+					    	<button ms-click='noCarNumSearch' type="button" class="btn btn-primary"><i class='glyphicon glyphicon-search'></i> 无牌车搜索</button>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div ms-widget="table,$carList,$carListOpts"></div>
+	
+	<!--收费框-->
+	<div ms-widget='dialog,$paywin,$paywinOpts'>
+		<div class='row'>
+			<div class='col-sm-6'>
+				<div class='img-container'>
+					<img onerror="Index.onImgError(this);" ms-attr-src='picSrc' alt='车牌大图'>
+				</div>
+				<div class="form-horizontal">
+					<fieldset>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">车牌号码</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" ms-duplex="car_license_number" readonly>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">车牌小图</label>
+							<div class="col-sm-8">
+								<img onerror='Index.onImgError(this)' height='30' alt='车牌图片' ms-attr-src='enter_car_license_picture'>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">用户类型</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" ms-duplex="enter_vip_type" readonly>
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class='col-sm-6'>
+				<div class="form-horizontal">
+					<fieldset>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">入场时间</label>
+							<div class="col-sm-8">
+								<label class="control-label">{{enter_time}}</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">停车费用</label>
+							<div class="col-sm-8">
+								<label class="control-label text-danger">{{total_amount}}</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">优惠方式</label>
+							<div class="col-sm-8">
+								<label class="control-label text-danger" ms-if='!discount_list || discount_list.length === 0'>
+									暂无优惠信息
+								</label>
+								<div ms-repeat='discount_list' class='discount-item'>
+									<label class='control-label'>
+										<input ms-change='updateDiscount' type='checkbox' name='check_discount' ms-duplex-checked='el._checked'>{{el.discount_name}}
+									</label>
+									<button class='btn btn-default btn-xs' ms-attr-disabled='!el._checked' ms-click='dealDiscountNum(el,-1)'>
+										<i class='glyphicon glyphicon-minus'></i>
+									</button>
+									<span>{{el._count}}</span>
+									<button class='btn btn-default btn-xs' ms-attr-disabled='!el._checked' ms-click='dealDiscountNum(el,1)'>
+										<i class='glyphicon glyphicon-plus'></i>
+									</button>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">扫码优惠</label>
+							<div class="col-sm-8">
+								<label class="control-label text-danger" ms-if='!qrcode_discount_list || qrcode_discount_list.length === 0'>
+									暂无优惠信息
+								</label>
+								<label ms-repeat='qrcode_discount_list' class='control-label'>
+									{{el.discount_name}}
+									<button class='btn btn-default btn-xs' ms-click='cancelQrcodeDiscount($index)'>
+										<i class='glyphicon glyphicon-remove'></i>
+									</button>
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">出场需缴</label>
+							<div class="col-sm-8">
+								<label class="control-label text-danger">{{supplementary}}</label>
+							</div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--收费框-->
+	
+	
+	
+	<div ms-widget="dialog,$correctWin,$correctWinOpts">
+		<form class="form-horizontal mgt10">
+			<fieldset>
+				<div class="form-group form-group-lg">
+				    <label class="col-sm-2 control-label carnum-label">入场车牌</label>
+				    <div class="col-sm-10">
+				    	<div class='db dbac wall'>
+				    		<div class='dbf1'>
+				    			<input type="text" class="form-control dbf1" readonly ms-duplex='inCarNum'>
+				    		</div>
+				    		<div class='padl5'>
+					    		<img ms-attr-src="carNumImg" onerror="Index.onImgError(this);" class='img-rounded' alt='车牌识别图片' height='50'>
+					    	</div>
+				    	</div>
+				    </div>
+				</div>
+				<div class="form-group form-group-lg">
+				    <label class="col-sm-2 control-label">校正车牌</label>
+				    <div class="col-sm-10">
+				    	<div class="input-group">
+						  	<span class="input-group-addon cpointer" ms-widget="tooltip" data-tooltip-position="top" 
+				    			data-tooltip-content='请在下方选择'>{{curChoose}}</span>
+						  	<input type="text" class="form-control" placeholder="XX888" ms-duplex='correctNum' ms-on-blur='correctNumBlur'>
+						</div>
+				    </div>
+				</div>
+			</fieldset>
+		</form>
+		<div class='row mgb5' ms-repeat='provinceData'>
+			<div class='col-sm-6' ms-repeat-i='el'>
+				<div class='row'>
+					<div class='choose-province text-center' ms-repeat-j='i'>
+						<button class='btn btn-primary btn-lg' ms-click='doChoose(j)' ms-class='active:curChoose === j'>{{j}}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ms-widget='dialog,$qrcode,$qrcodeOpts'>
+		<div class='qrcode-area' id='qrcode-area'>
+			{{qrCodeHtml | html}}
+		</div>
+		<p class='text-center' ms-visible='result'>{{result}}</p>
+		<p class='text-center' ms-visible='error'>{{error}}</p>
+		<p class='text-center' ms-visible='videoError'>{{videoError}}</p>
+	</div>
+</div>
+<script src='module/avalon.modern.js'></script>
+<script src='module/business/charge.js?20151226'></script>
+<script src='module/jquery-3.1.1.js'></script>
+<script src='module/business/independent.js'></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>岗亭收费管理系统-离场车辆</title>
+<link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+<link href="css/base.css" rel="stylesheet">
+<link href="css/index.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="font/font-awesome-4.7.0/css/font-awesome.css">
+
+<style type="text/css">
+	.form-control{
+		height: 32px;
+	}
+	.form-group{
+		margin-bottom: 6px;
+	}
+</style>
+<!--[if lt IE 10]>
+<script>alert("抱歉，请使用IE10+,Google Chrome,firefox等其他高级浏览器登录本系统!");</script>
+<![endif]-->
+</head>
+<body id='car' ms-controller='body'>
+<div ms-include-src="'tpl/top.html'" data-include-replace="true"></div>
+<div  id="mcontent" class="mcontent container-fluid" ms-controller='content'>
+	<form class="form-horizontal mgt15">
+		<fieldset>
+			<div class="form-group">
+				<label for='carNumber' class="col-sm-2 control-label">车牌号码</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id='carNumber' placeholder='请输入车牌关键字' ms-duplex='model.car_license_number'>
+				</div>
+				<!-- <label for='carType' class="col-sm-2 control-label">车辆类型</label>
+				<div class="col-sm-4">
+					<select class="form-control" id='carType' ms-duplex='model.vip_type'>
+						<option value=''>请选择</option>
+						<option value='1'>临时车</option>
+						<option value='2'>本地VIP</option>
+						<option value='3'>会员车</option>
+					</select>
+				</div> -->
+				<label for='carType' class="col-sm-2 control-label">车辆类型</label>
+				<div class="col-sm-4">
+					<select class="form-control" id='carType' ms-duplex='model.enter_vip_type'>
+						<option value=''>请选择</option>
+						<option ms-repeat="enterVipType"  ms-attr-value='el.v'>{{el.t}}</option>
+					</select>
+				</div>
+
+
+<!-- 				<label for='carType' class="col-sm-2 control-label">车辆类型</label>
+				<div class="col-sm-4">
+					<select class="form-control" id='carType' ms-duplex='model.enter_vip_type'>
+						<option value=''>请选择</option>
+						<option ms-repeat="enterVipType"  ms-attr-value='el.v'>{{el.t}}</option>
+					</select>
+				</div> -->
+			</div>
+			<div class="form-group">
+				<label for='sInTime' class="col-sm-2 control-label">入场时间</label>
+                <div class='col-sm-4'>
+					<div id='sInTimePicker' class="input-group date">
+	                    <input id='sInTime' class="form-control" type="text" readonly ms-duplex="model.sInDateStr">
+	                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+	                </div>
+				</div>
+				<label for='eInTime' class="col-sm-2 control-label">至</label>
+				<div class='col-sm-4'>
+					<div id='eInTimePicker' class="input-group date">
+	                    <input id='eInTime' class="form-control" type="text" readonly ms-duplex="model.eInDateStr">
+	                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+	                </div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for='sOutTime' class="col-sm-2 control-label">出场时间</label>
+                <div class='col-sm-4'>
+					<div id='sOutTimePicker' class="input-group date">
+	                    <input id='sInTime' class="form-control" type="text" readonly ms-duplex="model.sOutDateStr">
+	                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+	                </div>
+				</div>
+				<label for='eOutTime' class="col-sm-2 control-label">至</label>
+				<div class='col-sm-4'>
+					<div id='eOutTimePicker' class="input-group date">
+	                    <input id='eOutTime' class="form-control" type="text" readonly ms-duplex="model.eOutDateStr">
+	                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+	                </div>
+				</div>
+			</div>
+			<!--
+			<div class="form-group">
+				<label for='inOper' class="col-sm-2 control-label">入场操作人</label>
+				<div class="col-sm-4">
+					<select class='form-control' id='inOper' ms-duplex='model.in_operate_name'>
+						<option value=''>请选择</option>
+						<option ms-repeat="inOperUsers" ms-attr-value='el.value'>{{el.text}}</option>
+					</select>
+				</div>
+				<label for='outOper' class="col-sm-2 control-label">出场操作人</label>
+				<div class="col-sm-4">
+					<select class='form-control' id='outOper' ms-duplex='model.out_operate_name'>
+						<option value=''>请选择</option>
+						<option ms-repeat="outOperUsers" ms-attr-value='el.value'>{{el.text}}</option>
+					</select>
+				</div>
+			</div>
+			-->
+			<div class="form-group">
+			    <div class="col-sm-offset-2 col-sm-10">
+			    	<button type="button" class="btn btn-primary" ms-click='search'><i class='glyphicon glyphicon-search'></i> 搜索</button>
+			    </div>
+			</div>
+		</fieldset>
+	</form>
+	
+	<div ms-widget="table,$carList,$carListOpts"></div>
+
+
+	<div ms-widget="dialog,$picWin,$picWinOpts">
+		<div class="carousel slide">
+		  	<div class="carousel-inner" id='carousel'>
+			    <div class="item" ms-repeat="imgs" ms-class='active:$index === curIndex'>
+			      	<img ms-attr-src="el.src" alt='大图' onerror="Index.onImgError(this);">
+			    </div>
+		  	</div>
+			<a ms-visible='imgs.length > 1' class="left carousel-control" href="javascript:void(0)" ms-click="prev">
+			    <span class="glyphicon glyphicon-chevron-left"></span>
+			</a>
+			<a ms-visible='imgs.length > 1' class="right carousel-control" href="javascript:void(0)" ms-click="next">
+				<span class="glyphicon glyphicon-chevron-right"></span>
+		  	</a>
+		</div>
+	</div>
+</div>
+<script src='module/avalon.modern.js'></script>
+<script src='module/business/outcar.js?1'></script>
+<script src='module/jquery-3.1.1.js'></script>
+<script src='module/business/independent.js'></script>
+</body>
+</html>

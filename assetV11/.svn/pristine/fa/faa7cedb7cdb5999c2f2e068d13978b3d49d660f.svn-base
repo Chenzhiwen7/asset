@@ -1,0 +1,79 @@
+.set_9_btn-corner {
+	margin-left: auto;
+	margin-right: auto;
+
+  border: none;
+  background: transparent;
+  color: #333;
+ 	min-width: 230px;
+	max-width: 400px;
+
+  position:relative;
+  line-height:45px;
+  cursor:pointer;
+}
+.set_9_btn-corner span {
+  position: absolute;
+  background-color: #218e9e;
+  display: block;
+  transition: all 200ms;
+}
+.set_9_btn-corner .line1,
+.set_9_btn-corner .line3 {
+    height: 10px;
+    width: 40px;
+}
+.set_9_btn-corner .line2,
+.set_9_btn-corner .line4 {
+		height: 39px;
+    width: 12px;
+}
+.set_9_btn-corner .line1,
+.set_9_btn-corner .line2 {
+  top: 0;
+  right: 0;
+}
+.set_9_btn-corner .line3,
+.set_9_btn-corner .line4 {
+  bottom: 0;
+  left: 0;
+}
+.set_9_btn-corner.reverse .line1,
+.set_9_btn-corner.reverse .line3 {
+  width: 100%;
+}
+.set_9_btn-corner.reverse .line2,
+.set_9_btn-corner.reverse .line4 {
+  height: 100%;
+}
+.set_9_btn-corner:hover,
+.set_9_btn-corner:active {
+  background-color: transparent;
+  color: #333;
+}
+.set_9_btn-corner:hover .line1,
+.set_9_btn-corner:active .line1,
+.set_9_btn-corner:hover .line3,
+.set_9_btn-corner:active .line3 {
+  width: 100%;
+}
+.set_9_btn-corner:hover .line2,
+.set_9_btn-corner:active .line2,
+.set_9_btn-corner:hover .line4,
+.set_9_btn-corner:active .line4 {
+  height: 100%;
+}
+.set_9_btn-corner:hover.reverse .line1,
+.set_9_btn-corner:active.reverse .line1,
+.set_9_btn-corner:hover.reverse .line3,
+.set_9_btn-corner:active.reverse .line3 {
+  width: 20px;
+}
+.set_9_btn-corner:hover.reverse .line2,
+.set_9_btn-corner:active.reverse .line2,
+.set_9_btn-corner:hover.reverse .line4,
+.set_9_btn-corner:active.reverse .line4 {
+  height: 20px;
+}
+
+

@@ -1,0 +1,294 @@
+﻿<div class='navbar navbar-inverse mnavbar  navbar-fixed-top' id="mnavbar"  ms-controller='top'><!--一号容器-->
+	<div class="container-fluid"><!--二号容器-->
+
+		<div class="navbar-header"><!-- 左上角 -->
+			<button type="button" class="navbar-toggle collapsed" ms-click='toggleNav'><!-- 兼容手机时左边菜单展开按钮-->
+				<span class="sr-only">展开导航栏</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button><!-- 兼容手机时左边菜单展开按钮结束-->
+			<a class="navbar-brand" href="javascript:void(0)">岗亭收费管理系统<em>v1.2</em></a>
+
+			<span class="theme-box"><!-- 主题一号容器 -->
+			<span class="theme" id="theme"><!-- 主题二号容器 -->
+		 	 	<i class="fa fa-cog theme-i" style="font-size:16px"></i>
+           	 	<span class="theme-title">主题</span>
+           		<ul id="sss" class="theme-list" >
+	              <li class="theme-item" id="button-bg"></li>
+	              <li class="theme-item" id="button-bg2"></li>
+	              <li class="theme-item" id="button-bg3"></li>
+	              <li class="theme-item" id="button-bg4"></li>
+	              <li class="theme-item" id="button-bg5"></li>
+	              <li class="theme-item" id="button-bg6"></li>
+	          	</ul>
+			</span><!-- 主题二号容器结束 -->
+			</span><!-- 主题一号容器结束 -->
+	    </div><!-- 左上角结束 -->
+
+
+		<div class="navbar-collapse" ms-class='collapse:navCollapse'><!-- 右上角和左侧导航 -->
+			<ul class="nav navbar-nav nav-color"  ms-if='curIndex !== -1' id="unfoldList"><!-- 左侧导航 -->
+				<li class="nav-item unfoldItem" id="unfoldItem" >
+					<a class='text-center'>
+						<i id="bars" class="fa fa-bars" style="font-size:16px"></i>
+						<span>收起</span>
+					</a>
+				</li>
+
+				<li class="nav-item">
+					<a rel="prefetch"  ms-attr-href="inout.html?account={{accountName}}" class='text-center' ms-class='selected:curIndex === 0'>
+						<i class="fa fa-arrows-h" style="font-size:16px"></i>
+						<span>进出</span>
+					</a>
+				</li>
+				<li  rel="prefetch"  class="nav-item">
+					<a ms-attr-href="car.html?account={{accountName}}" class='text-center ' ms-class='selected:curIndex === 1'>
+						<i class="fa fa-automobile" style="font-size:16px"></i>
+						<span>在场</span>
+					</a>
+				</li>
+				<li  rel="prefetch"  class="nav-item">
+					<a ms-attr-href="outcar.html?account={{accountName}}" class='text-center' ms-class='selected:curIndex === 5'>
+						<i class="fa fa-mail-reply" style="font-size:16px"></i>
+						<span>离场</span>
+					</a>
+				</li> 
+				<li  rel="prefetch"  class="nav-item">
+					<a ms-attr-href="money.html?account={{accountName}}" class='text-center' ms-class='selected:curIndex === 2'>
+						<i class="fa fa-cny" style="font-size:16px"></i>
+						<span>财务</span>
+					</a>
+				</li>
+				<li  rel="prefetch"  class="nav-item">
+					<a ms-attr-href="setting.html?account={{accountName}}" class='text-center' ms-class='selected:curIndex === 3'>
+						<i class="fa fa-user-circle" style="font-size:16px"></i>
+						<span>用户</span>
+					</a>
+				</li>
+				<li  rel="prefetch"  class="nav-item">
+					<a ms-attr-href="exception.html?account={{accountName}}" class='text-center' ms-class='selected:curIndex === 4'>
+						<i class="fa  fa-exclamation-circle" style="font-size:16px"></i>
+						<span>异常</span>
+					</a>
+				</li>
+			</ul><!--左侧导航结束 -->
+
+
+			<div class="navbar-right"><!-- 右上角 -->
+				<ul class="nav navbar-nav">
+					<li class='mnavbar-carnuminfo cpointer' ms-click='correctNum'>						
+						<span class='empty'>
+							<span>空车位：</span>
+							<span>{{total_parking_space_remaining}}</span>
+						</span>
+						<span class='inall'>
+							<span>总车位：</span>
+							<span>{{total_parking_space}}</span>
+						</span>						
+					</li>
+					<li class="register_item">
+						<a href="javascript:void(0)" class='text-center' ms-click='showRegisterWin'>							
+							<i class="fa fa-plus-square" style="font-size:16px"></i>
+							{{registerstate}}
+						</a>
+					</li>	
+					<li>
+						<a href="/Download/help.doc" class="text-center">				
+						<i class="fa fa-file-text" style="font-size:16px"></i>
+						帮助
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)" class='text-center' ms-click='showPersonalWin'>
+						<i class="fa fa-user-circle" style="font-size:16px"></i>
+							<!-- {{accountName}} -->
+							{{UserName1}}
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)" class='text-center' ms-click='logout'>
+						<i class="fa fa-sign-in" style="font-size:16px"></i>
+							退出
+						</a>
+					</li>
+				</ul>
+			</div><!-- 右上角结束 -->
+		</div><!-- 右上角和左侧导航 -->
+	</div><!--二号容器结束-->
+</div><!--一号容器结束-->
+
+<div ms-widget='dialog,$personalWin,$personalWinOpts'><!-- 管理员 -->
+	<p class='text-center'>
+		<i class="fa fa-address-card-o"  style="font-size:100px"></i>
+	</p>
+	<div class="form-horizontal mgt10">
+		<fieldset>
+			<div class="form-group form-groupN form-group">
+				<label for='personal-name' class="col-sm-2 control-label control-labelN">姓名</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id='personal-name' ms-duplex='user_login_name' readonly>
+				</div>
+				<label for='personal-phone' class="col-sm-2 control-label control-labelN">电话</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id='personal-phone' ms-duplex='telphone' readonly>
+				</div>
+			</div>
+			<div class="form-group form-groupN">
+				<label for='personal-role' class="col-sm-2 control-label control-labelN">角色权限</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id='personal-role' ms-duplex='user_role' readonly>
+				</div>
+				<label for='personal-date' class="col-sm-2 control-label control-labelN">登录时间</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id='personal-date' ms-duplex='loginTime' readonly>
+				</div>
+			</div>
+			<div class="form-group form-groupN">
+				<label for='personal-sDate' class="col-sm-2 control-label control-labelN">起始时间</label>
+				
+				<div class='col-sm-10 padlr1'>
+					<div id='personal-eDatePicker' class="input-group date">
+	                    <input id='personal-sDate' class="form-control" type="text" readonly ms-duplex='sDateStr'>
+	                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+	                </div>
+				</div>
+			</div>
+			<div class="form-group form-groupN">
+				<label for='personal-eDate' class="col-sm-2 control-label control-labelN">结束时间</label>
+
+				<div class='col-sm-10 padlr1'>
+					<div id='personal-eDatePicker2' class="input-group date">
+	                    <input type="text" class="form-control" id='personal-eDate' ms-duplex='eDateStr' readonly>
+	                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+	                </div>
+				</div>
+			</div>
+			<div class="form-group form-groupN">
+				<label for='personal-money' class="col-sm-2 control-label control-labelN">总金额</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id='personal-money' ms-duplex="total_received_amount " readonly>
+				</div>
+				<label for='personal-acual-money' class="col-sm-2 control-label control-labelN">实收金额</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id='personal-acual-money' ms-duplex='total_amount' readonly>
+				</div>
+			</div>
+			<div class="form-group form-groupN">
+				<label for='personal-time' class="col-sm-2 control-label control-labelN">优惠时间</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id='personal-time' ms-duplex='total_discount_time' readonly>
+				</div>
+				<label for='personal-cheap-money' class="col-sm-2 control-label control-labelN">优惠金额</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id='personal-cheap-money' ms-duplex='total_discount_amount' readonly>
+				</div>
+			</div>
+			<div class="form-group form-groupN mgb0">
+			    <div class="col-sm-offset-2 col-sm-10">
+			    	<div class='row'>
+			    		<!-- 
+			    		<div class='col-xs-6 hide'>
+			    			<button type="button" class="btn btn-success btn-lg btn-block"><i class='glyphicon glyphicon-refresh'></i> 交接班</button>
+			    		</div>
+			    		-->
+			    		<div class='col-xs-12'>
+			    			<button type="button" ms-click='changePwd' class="btn btn-danger btn-lg btn-block"><i class='glyphicon glyphicon-pencil'></i> 密码修改</button>
+			    		</div>
+			    	</div>
+			    </div>
+			</div>
+		</fieldset>
+	</div>
+</div><!-- 管理员结束 -->
+<div ms-widget="dialog,$alert,$alertOpts"><!-- 提示信息 -->
+	<h2 class='text-center'>{{mes | html}}</h2>
+</div><!-- 提示信息结束 -->
+
+<div ms-widget='dialog,$confirm,$confirmOpts'>
+	<h2 class='text-center'>{{mes | html}}</h2>
+</div>
+
+<div ms-widget="dialog,$pwd,$pwdOpts"><!-- 管理员修改密码 -->
+	<div class="form-horizontal">
+		<fieldset>
+			<div class="form-group form-groupN" ms-class='has-error:origin_password_mes'>
+				<label for='pwd-old' class="col-sm-2 control-label control-labelN">原密码</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control" id='pwd-old' ms-duplex='origin_password'>
+					<div class='text-danger' ms-visible='origin_password_mes'>{{origin_password_mes}}</div>
+				</div>
+			</div>
+			<div class="form-group form-groupN" ms-class='has-error:changed_password_mes'>
+				<label for='pwd-new' class="col-sm-2 control-label control-labelN">新密码</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control" id='pwd-new' ms-duplex='changed_password'>
+					<div class='text-danger' ms-visible='changed_password_mes'>{{changed_password_mes}}</div>
+				</div>
+			</div>
+			<div class="form-group form-groupN mgb0" ms-class='has-error:changed_password_confirm_mes'>
+				<label for='pwd-confirm' class="col-sm-2 control-label control-labelN">确认密码</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control" id='pwd-confirm' ms-duplex='changed_password_confirm'>
+					<div class='text-danger' ms-visible='changed_password_confirm_mes'>{{changed_password_confirm_mes}}</div>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+</div><!-- 管理员修改密码结束 -->
+
+<div ms-widget='dialog,$register,$registerOpts'><!-- 注册 -->
+	<div class="form-horizontal">
+		<fieldset>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">注册ID</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ms-duplex='register_id'>
+				</div>
+			</div>	
+			<div class="form-group">
+				<label class="col-sm-4 control-label">注册码</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ms-duplex='register_code'>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+</div><!-- 注册结束 -->
+
+
+<div ms-widget='dialog,$correctCarNum,$correctCarNumOpts'><!-- 余位 -->
+	<div class="form-horizontal">
+		<fieldset>
+			<!--
+			<div class="form-group">
+				<label class="col-sm-4 control-label">总空余车位</label>
+				<div class="col-sm-8">
+					<label class="control-label">
+						{{((+normal_parking_space_remaining) + (+vip_parking_space_remaining) + (+appointment_parking_space_remaining)) || '--'}}
+					</label>
+				</div>
+			</div> -->
+			<div class="form-group">
+				<label class="col-sm-4 control-label">空余车位数</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ms-duplex='total_parking_space_remaining'>
+				</div>
+			</div>
+<!-- 			<div class="form-group">
+				<label class="col-sm-4 control-label">免费车空余车位数</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ms-duplex='vip_parking_space_remaining'>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">月租车空余车位数</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ms-duplex='appointment_parking_space_remaining'>
+				</div>
+			</div> -->
+		</fieldset>
+	</div>
+</div><!-- 余位结束-->

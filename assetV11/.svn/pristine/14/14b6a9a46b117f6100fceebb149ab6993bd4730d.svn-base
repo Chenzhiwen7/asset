@@ -1,0 +1,93 @@
+body,html{width: 100%;height: 100%}
+body{
+	background-image: url(../image/back66k.jpg);
+	background-size:  100% 900px;
+	background-position: 0 -81px;
+	background-repeat: no-repeat;
+}
+
+.logoBox{
+    margin: 89px auto 71px;
+}
+.logoContent{
+	overflow: hidden;
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.zjzbLogo{
+	height: 9%;
+    width: 158px;
+    height: 48px;
+    display: block;	 
+    float: left;  
+    margin: 10px 2px; 
+}
+
+.logoContent_text{
+	
+}
+.logoContent_text1{
+    font-size: 26px;
+    font-weight: bold;
+    color: #000000
+}
+.logoContent_text2{
+    font-size: 22px;
+    color: #777;
+    font-weight: bold;
+}
+.login{
+	min-width: 230px;
+	max-width: 400px;
+	margin:0 auto;
+	padding:0 20px 20px;
+	border:1px solid #d2d2d2;
+	border-radius: 1px;
+	background-color: #fff;
+	/*box-shadow: 5px 5px 5px #bbb;*/
+}
+.login .form-control{
+	padding: 10px;font-size: 16px;height: auto;
+}
+.login .alert{margin:5px 0 0;padding: 5px 10px}
+.valid{padding-right: 100px;}
+.valid-img{
+	position: absolute;right: 0;height: 40px;top: 50%;margin-top: -20px;text-align: center;cursor: pointer;width: 90px;
+}
+.valid-img span{margin-top: 4px;}
+/*.container-inner{
+	position: absolute;
+	left: 10px;
+	right: 10px;
+	height: 400px;
+	top:50%;
+	margin-top: -131px;
+}
+*/
+
+.formBox{
+	margin:0 auto;
+	min-width: 230px;
+	max-width: 400px;
+	background: rgba(55,55,55,.3);
+	padding: 10px;
+	
+}
+.logInButton{
+	display: inline-block;
+	width: 100%;
+	height: 45px;		
+	background-color: #218e9e;
+	cursor: pointer;
+	color: #fff;
+	border: none;
+}
+.logInButton:hover{
+	background-color: #31719e;
+}
+.textCopy{
+	font-size: 17px;
+	color: #777;
+		margin-top: 117px;
+}

@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>岗亭收费管理系统</title>
+<link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+<link href="css/base.css" rel="stylesheet">
+<!--[if lt IE 10]>
+<script>alert("抱歉，请使用IE10+,Google Chrome,firefox等其他高级浏览器登录本系统!");</script>
+<![endif]-->
+<style>
+	body,html{width: 100%;height: 100%}
+	body{
+		background-color: #eee;
+	}
+	.login{
+		min-width: 230px;max-width: 400px;margin:0 auto;padding:0 20px 20px;border:1px solid #d2d2d2;
+		border-radius: 5px;background-color: #fff;margin-bottom: 10px;
+		box-shadow: 5px 5px 5px #bbb;
+	}
+	.login .form-control{
+		padding: 10px;font-size: 16px;height: auto;
+	}
+	.login .alert{margin:5px 0 0;padding: 5px 10px}
+	.valid{padding-right: 100px;}
+	.valid-img{
+		position: absolute;right: 0;height: 40px;top: 50%;margin-top: -20px;text-align: center;cursor: pointer;width: 90px;
+	}
+	.valid-img span{margin-top: 4px;}
+	.container-inner{position: absolute;left: 10px;right: 10px;height: 400px;top:50%;margin-top: -200px;}
+</style>
+</head>
+<body>
+<div class='container h100 posr'>
+	<div class='container-inner' ms-controller='login'>
+		<h1 class='text-center'>岗亭收费管理系统</h1>
+		<form class='login posr'>
+			<fieldset  ms-attr-disabled='loginDisabled'>
+				<h2 class="form-signin-heading">请登陆</h2>
+				<div class="form-group" ms-class='has-error:nameTip && name === ""'>
+					<input id='name' type="text" class="form-control" placeholder="用户名" ms-duplex-string='name' ms-keydown="enterLogin">
+					<p class="text-danger" ms-visible='nameTip && name === ""'>请输入用户名</p>
+				</div>
+				<div class="form-group" ms-class='has-error:passwordTip && password === ""'>
+					<input id='password' type="password" class="form-control" placeholder="密码" ms-duplex-string='password' ms-keydown="enterLogin">
+					<p class="text-danger" ms-visible='passwordTip && password === ""'>请输入密码</p>
+				</div>
+				<!-- 
+				<div class="checkbox">
+					<label>
+						<input type="checkbox"> 记住我
+					</label>
+					<a class='pull-right' href='#'>忘记密码?</a>
+				</div>-->
+				<button type='button' class="btn btn-primary btn-lg btn-block" ms-click='login'>
+					{{loginDisabled ? '登陆中...' : '登陆'}}
+				</button>
+				<div class="alert alert-danger" ms-class='hide:!errorMsg'>
+					<button type="button" class="close" ms-click='closeMsg("errorMsg")'><span>&times;</span></button>
+					{{errorMsg}}
+				</div>
+				<div class="alert alert-success" ms-class='hide:!successMsg'>
+					<button type="button" class="close" ms-click='closeMsg("successMsg")'><span>&times;</span></button>
+					{{successMsg}}
+				</div>
+			</fieldset>
+		</form>
+		<p class="text-muted text-center">版权所有&copy;</p>
+	</div>
+</div>
+<script src='module/avalon.modern.js'></script>
+<script>
+	require(["common/websocket"],function(socket){
+		socket.login = true;
+		var vmodel = avalon.define({
+			$id : "login",
+			enterLogin : function(e){
+				if(e.keyCode === 13){
+					vmodel.login();
+				}
+			},
+			login : function(){
+				vmodel.errorMsg = "";
+				vmodel.successMsg = "";
+				var isValid = true;
+				avalon.each(['name','password'],function(i,v){
+					if(vmodel[v] === ''){
+						document.getElementById(v).focus();
+						vmodel[v + 'Tip'] = true;
+						return isValid = false;
+					}
+				});
+				if(isValid){
+					vmodel.loginDisabled = true;
+					socket.send({
+						command : "USER_ACCESS",
+						biz_content : {
+							username : vmodel.name,
+							password : vmodel.password,
+							ip : "127.0.0.1",
+							time : avalon.filters.date(new Date(),"yyyy-MM-dd HH:mm:ss"),
+							type : "LOGIN"
+						}
+					},null,function(data){
+						if(data.msg === "user name didnot exit"){
+							vmodel.errorMsg = "用户名不存在";
+							vmodel.loginDisabled = false;
+						}else if(data.msg === "user password err"){
+							vmodel.errorMsg = "密码错误";
+							vmodel.loginDisabled = false;
+						}else if(data.msg === "ok"){
+							vmodel.errorMsg = "";
+							vmodel.successMsg = "登录成功,跳转中...";
+							var personalInfo = data.user_list[0];
+							var date = new Date();
+							personalInfo.loginTime = avalon.filters.date(date,"yyyy-MM-dd HH:mm:ss");
+							personalInfo.loginTimeMillisecond = date.getTime();
+							personalInfo.accountName = vmodel.name;
+							window.localStorage.setItem("UserName1",data.user_list[0].user_name);
+							if(data.user_list[0].user_name==='')
+								window.localStorage.setItem("UserName1",vmodel.name);
+							localStorage.setItem(vmodel.name,JSON.stringify(personalInfo));
+							if(personalInfo.user_role === '3'){
+								location.href = 'charge.html?account=' + vmodel.name;
+								return;
+							}
+							location.href = 'inout.html?account=' + vmodel.name;
+						}
+					});
+				}
+			},
+			closeMsg : function(str){
+				vmodel[str] = '';
+			},
+			loginDisabled : false,
+			name : '',
+			nameTip : false,
+			passwordTip : false,
+			password : '',
+			errorMsg : '',
+			successMsg : ""
+		});
+		avalon.scan();
+		document.getElementById("name").focus();
+	});
+</script>
+</body>
+</html>
